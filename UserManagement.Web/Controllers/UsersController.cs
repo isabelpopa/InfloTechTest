@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using UserManagement.Models;
 using UserManagement.Services.Domain.Interfaces;
 using UserManagement.Web.Models.Users;
 
@@ -11,9 +12,24 @@ public class UsersController : Controller
     public UsersController(IUserService userService) => _userService = userService;
 
     [HttpGet]
-    public ViewResult List()
+    public ViewResult List(bool? isActive)
     {
-        var items = _userService.GetAll().Select(p => new UserListItemViewModel
+        IEnumerable<User> users;
+
+        if (isActive == true)
+        {
+            users = _userService.FilterByActive(true);
+        }
+        else if (isActive == false)
+        {
+            users = _userService.FilterByActive(false);
+        }
+        else
+        {
+            users = _userService.GetAll();
+        }
+
+        var items = users.Select(p => new UserListItemViewModel
         {
             Id = p.Id,
             Forename = p.Forename,

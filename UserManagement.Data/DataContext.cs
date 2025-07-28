@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using UserManagement.Models;
 
@@ -49,4 +50,8 @@ public class DataContext : DbContext, IDataContext
         base.Remove(entity);
         SaveChanges();
     }
+
+    public IEnumerable<User> FilterByActive(bool isActive) => Users!.Where(u => u.IsActive == isActive);
+
+  
 }
