@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UserManagement.Models;
 using UserManagement.Services.Domain.Implementations;
@@ -20,21 +21,32 @@ public class UserServiceTests
         result.Should().BeSameAs(users);
     }
 
-    private IQueryable<User> SetupUsers(string forename = "Johnny", string surname = "User", string email = "juser@example.com", bool isActive = true)
+    [Fact]
+    public void FilterByActive_VerifyContextCalled_CalledOnce()
     {
-        var users = new[]
+        // Arrange: Initializes objects and sets the value of the data that is passed to the method under test.
+        var service = CreateService();
+
+        // Act: Invokes the method under test with the arranged parameters.
+        service.FilterByActive(true);
+
+        // Assert: Verifies that the action of the method under test behaves as expected.
+        _dataContext.Verify(u => u.FilterByActive(true), Times.Once);
+    }
+
+    private IQueryable<User> SetupUsers()
+    {
+        var users = new List<User>
         {
-            new User
-            {
-                Forename = forename,
-                Surname = surname,
-                Email = email,
-                IsActive = isActive
-            }
+            new User { Id = 1, Forename = "Peter", Surname = "Loew", Email = "ploew@example.com", IsActive = true },
+            new User { Id = 2, Forename = "Benjamin Franklin", Surname = "Gates", Email = "bfgates@example.com", IsActive = true },
+            new User { Id = 3, Forename = "Castor", Surname = "Troy", Email = "ctroy@example.com", IsActive = false },
+            new User { Id = 4, Forename = "Memphis", Surname = "Raines", Email = "mraines@example.com", IsActive = true },
+            new User { Id = 5, Forename = "Stanley", Surname = "Goodspeed", Email = "sgodspeed@example.com", IsActive = true },
         }.AsQueryable();
 
         _dataContext
-            .Setup(s => s.GetAll<User>())
+            .Setup(u => u.GetAll<User>())
             .Returns(users);
 
         return users;
