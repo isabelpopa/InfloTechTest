@@ -1,0 +1,31 @@
+﻿@model UserManagement.Web.Models.Users.UserDetailsViewModel
+
+<h2>User Details</h2>
+
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Forename</th>
+				<th>Surname</th>
+				<th>Email</th>
+				<th>Date of birth</th>
+				<th>Account Active</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>@Model.Id</td>
+				<td>@Model.Forename</td>
+				<td>@Model.Surname</td>
+				<td>@Model.Email</td>
+				<td>@Model.DateOfBirth</td>
+				<td>@(Model.IsActive ? "Yes" : "No")</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<a asp-action="List" class="btn btn-secondary">Back to list</a>
+

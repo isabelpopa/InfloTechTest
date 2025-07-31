@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UserManagement.Models;
+﻿using System.Linq;
 
 namespace UserManagement.Data;
 
@@ -30,6 +28,6 @@ public interface IDataContext
     void Update<TEntity>(TEntity entity) where TEntity : class;
 
     void Delete<TEntity>(TEntity entity) where TEntity : class;
-    IEnumerable<User> FilterByActive(bool isActive);
 
+    //IEnumerable<User> FilterByActive(bool isActive);
 }

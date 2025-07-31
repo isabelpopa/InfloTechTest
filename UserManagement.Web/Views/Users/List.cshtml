@@ -19,33 +19,21 @@
             @foreach (var item in Model.Items)
             {
                 <tr>
-                    <td>
-                        @item.Id
-                    </td>
-                    <td>
-                        @item.Forename
-                    </td>
-                    <td>
-                        @item.Surname
-                    </td>
-                    <td>
-                        @item.Email
-                    </td>
-                    <td>
-                        @item.DateOfBirth
-                    </td>
-                    <td>
-                        @(item.IsActive ? "Yes" : "No")
-                    </td>
+                    <td>@item.Id</td>
+                    <td>@item.Forename</td>
+                    <td>@item.Surname</td>
+                    <td>@item.Email</td>
+                    <td>@item.DateOfBirth</td>
+                    <td>@(item.IsActive ? "Yes" : "No")</td>
                     <td>
                         <div class="dropdown">
                             <button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnToggleActions">
                                 Actions
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="btnToggleActions">
-                                <li><a class="dropdown-item" href="#">View</a></li>
-                                <li><a class="dropdown-item" href="#">Edit</a></li>
-                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                                <li><a class="dropdown-item" asp-action="View" asp-route-id="@item.Id">View</a></li>
+                                <li><a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a></li>
+								<li><a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a></li>
                             </ul>
                         </div>
                     </td>
@@ -57,12 +45,13 @@
 
 <div>
     <div class="btn-group" role="group">
-        <a asp-controller="Users" asp-action="List" class="btn btn-default">Show All</a>
-		<a asp-controller="Users" asp-action="List" asp-route-isActive="true" class="btn btn-default">Active Only</a>
-		<a asp-controller="Users" asp-action="List" asp-route-isActive="false" class="btn btn-default">Non Active</a>
+		<!--Changed the syle of the buttons to make them stand out a bit more-->
+        <a asp-controller="Users" asp-action="List" class="btn btn-outline-secondary">Show All</a>
+		<a asp-controller="Users" asp-action="List" asp-route-isActive="true" class="btn btn-outline-secondary">Active Only</a>
+		<a asp-controller="Users" asp-action="List" asp-route-isActive="false" class="btn btn-outline-secondary">Non Active</a>
     </div>
 
-    <a href="#" class="btn btn-primary float-end">
+	<a asp-controller="Users" asp-action="Add" class="btn btn-primary float-end">
         Add User
     </a>
 </div>

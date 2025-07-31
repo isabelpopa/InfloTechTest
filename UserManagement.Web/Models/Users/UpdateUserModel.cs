@@ -1,12 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UserManagement.Models;
+namespace UserManagement.Web.Models.Users;
 
-public class User
+public class UpdateUserModel
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long Id { get; set; }
 
     [Required(ErrorMessage = "Forename is required")]

@@ -1,0 +1,42 @@
+﻿@model UserManagement.Web.Models.Users.UpdateUserModel
+
+<h2>Edit User</h2>
+
+<form asp-controller="Users" asp-action="ChangedUser" asp-route-id="@Model.Id" method="post">
+	<div class="mt-4">
+		<label asp-for="Forename"></label>
+		<input asp-for="Forename" />
+		<span asp-validation-for="Forename"></span>
+	</div>
+
+	<div class="mt-2">
+		<label asp-for="Surname"></label>
+		<input asp-for="Surname" />
+		<span asp-validation-for="Surname"></span>
+	</div>
+
+	<div class="mt-2">
+		<label asp-for="Email"></label>
+		<input asp-for="Email" />
+		<span asp-validation-for="Email"></span>
+	</div>
+
+	<div class="mt-2">
+		<label asp-for="DateOfBirth">Date of Birth</label>
+		<input asp-for="DateOfBirth" type="date" />
+		<span asp-validation-for="DateOfBirth"></span>
+	</div>
+
+	<div class="mt-2">
+		<label asp-for="IsActive">Is user active?</label>
+		<input asp-for="IsActive" type="checkbox" />
+		<span asp-validation-for="IsActive"></span>
+	</div>
+
+	<h4>Are you sure you want to save the changes to this user?</h4>
+
+	<div class="mt-3">
+		<button type="submit" class="btn btn-primary">Save</button>
+		<a asp-controller="Users" asp-action="List" class="btn btn-secondary">Cancel</a>
+	</div>
+</form>

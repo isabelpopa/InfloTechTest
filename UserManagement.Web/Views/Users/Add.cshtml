@@ -1,0 +1,38 @@
+﻿@model UserManagement.Web.Models.Users.CreateUserModel
+
+<h2>Add User</h2>
+
+<form action="/users/add" method="post">
+	<div class="mt-4">
+		<label asp-for="Forename"></label>
+		<input asp-for="Forename" />
+		<span asp-validation-for="Forename"></span>
+	</div>
+
+	<div class="mt-2">
+		<label asp-for="Surname"></label>
+		<input asp-for="Surname" />
+		<span asp-validation-for="Surname"></span>
+	</div>
+
+	<div class="mt-2">
+		<label asp-for="Email"></label>
+		<input asp-for="Email" />
+		<span asp-validation-for="Email"></span>
+	</div>
+
+	<div class="mt-2">
+		<label asp-for="DateOfBirth">Date of Birth</label>
+		<input asp-for="DateOfBirth" type="date" />
+		<span asp-validation-for="DateOfBirth"></span>
+	</div>
+
+	<div class="mt-2">
+		<label asp-for="IsActive">Is user active?</label>
+		<input asp-for="IsActive" type="checkbox" />
+		<span asp-validation-for="IsActive"></span>
+	</div>
+
+	<button class="mt-4" type="submit">Save</button>
+	<a class="ms-4" asp-action="List">Cancel</a>
+</form>
