@@ -1,0 +1,33 @@
+﻿@model UserManagement.Web.Models.UserLogs.UserLogDetailsViewModel
+
+<h2>User Details</h2>
+
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>User Id</th>
+				<th>Forename</th>
+				<th>Surname</th>
+				<th>Action</th>
+				<th>Description</th>
+				<th>Date and Time</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>@Model.Id</td>
+				<td>@Model.UserId</td>
+				<td>@Model.Forename</td>
+				<td>@Model.Surname</td>
+				<td>@Model.Action</td>
+				<td>@Model.Description</td>
+				<td>@Model.DateTime</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<a asp-action="List" class="btn btn-secondary">Back to list</a>
+

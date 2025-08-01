@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UserManagement.Models;
 using UserManagement.Services.Domain.Implementations;
+using UserManagement.Services.Domain.Interfaces;
 
 namespace UserManagement.Data.Tests;
 
@@ -162,5 +163,6 @@ public class UserServiceTests
     }
 
     private readonly Mock<IDataContext> _dataContext = new();
-    private UserService CreateService() => new(_dataContext.Object);
+    private readonly Mock<IUserLogService> _userLogService = new();
+    private UserService CreateService() => new(_dataContext.Object, _userLogService.Object);
 }

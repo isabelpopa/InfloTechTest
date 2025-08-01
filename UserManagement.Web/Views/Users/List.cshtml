@@ -51,8 +51,13 @@
 		<a asp-controller="Users" asp-action="List" asp-route-isActive="false" class="btn btn-outline-secondary">Non Active</a>
     </div>
 
-	<a asp-controller="Users" asp-action="Add" class="btn btn-primary float-end">
-        Add User
-    </a>
+	<div class="float-end">
+		<a asp-controller="UserLogs" asp-action="List" class="btn btn-secondary float-none me-2">
+			User Logs
+		</a>
+		<a asp-controller="Users" asp-action="Add" class="btn btn-primary float-end">
+			Add User
+		</a>
+	</div>
 </div>
 

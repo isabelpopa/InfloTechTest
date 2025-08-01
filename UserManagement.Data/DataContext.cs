@@ -29,6 +29,7 @@ public class DataContext : DbContext, IDataContext
         });
 
     public DbSet<User>? Users { get; set; }
+    public DbSet<UserLog>? UserLogs { get; set; }
 
     public IQueryable<TEntity> GetAll<TEntity>() where TEntity : class
         => base.Set<TEntity>();
@@ -50,6 +51,4 @@ public class DataContext : DbContext, IDataContext
         base.Remove(entity);
         SaveChanges();
     }
-
-    // public IEnumerable<User> FilterByActive(bool isActive) => Users!.Where(u => u.IsActive == isActive);
 }

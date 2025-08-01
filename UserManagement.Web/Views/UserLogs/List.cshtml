@@ -1,33 +1,6 @@
-﻿@model UserManagement.Web.Models.Users.UserDetailsViewModel
+﻿@model UserManagement.Web.Models.UserLogs.UserLogListViewModel
 
-<h2>User Details</h2>
-
-<div class="table-responsive">
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Forename</th>
-				<th>Surname</th>
-				<th>Email</th>
-				<th>Date of birth</th>
-				<th>Account Active</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>@Model.Id</td>
-				<td>@Model.Forename</td>
-				<td>@Model.Surname</td>
-				<td>@Model.Email</td>
-				<td>@Model.DateOfBirth</td>
-				<td>@(Model.IsActive ? "Yes" : "No")</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<h2>User Logs</h2>
+<h2>User Logs List</h2>
 
 <div class="table-responsive">
 	<table class="table table-striped">
@@ -43,7 +16,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var item in Model.UserLogs)
+			@foreach (var item in Model.Items)
 			{
 				<tr>
 					<td>@item.Id</td>
@@ -58,7 +31,7 @@
 								Actions
 							</button>
 							<ul class="dropdown-menu" aria-labelledby="btnToggleActions">
-								<li><a class="dropdown-item" asp-controller="UserLogs" asp-action="View" asp-route-id="@item.Id">View</a></li>
+								<li><a class="dropdown-item" asp-action="View" asp-route-id="@item.Id">View</a></li>
 							</ul>
 						</div>
 					</td>
@@ -68,5 +41,15 @@
 	</table>
 </div>
 
-<a asp-action="List" class="btn btn-secondary">Back to list</a>
+<div>
+	<div class="btn-group" role="group">
+		<!--Changed the syle of the buttons to make them stand out a bit more-->
+		<a asp-controller="UserLogs" asp-action="List" asp-route-descending="true" class="btn btn-outline-secondary">Sort by date descending</a>
+		<a asp-controller="UserLogs" asp-action="List" asp-route-descending="false" class="btn btn-outline-secondary">Sort by date ascending</a>
+	</div>
+
+	<a asp-controller="Users" asp-action="List" class="btn btn-secondary float-end">
+		Back to Users
+	</a>
+</div>
 

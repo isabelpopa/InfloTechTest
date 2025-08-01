@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using UserManagement.Models;
 using UserManagement.Services.Domain.Interfaces;
+using UserManagement.Web.Models.UserLogs;
 using UserManagement.Web.Models.Users;
 
 namespace UserManagement.WebMS.Controllers;
@@ -9,7 +10,13 @@ namespace UserManagement.WebMS.Controllers;
 public class UsersController : Controller
 {
     private readonly IUserService _userService;
-    public UsersController(IUserService userService) => _userService = userService;
+
+    private readonly IUserLogService _userLogService;
+    public UsersController(IUserService userService, IUserLogService userLogService)
+    {
+        _userService = userService;
+        _userLogService = userLogService;
+    }
 
     [HttpGet]
     public ViewResult List(bool? isActive)
@@ -73,6 +80,18 @@ public class UsersController : Controller
         if (user == null)
             return NotFound();
 
+        var userLogs = _userLogService.GetUserLogsByUserId(id);
+
+        var userLogItems = userLogs.Select(u => new UserLogListItemViewModel
+        {
+            Id = u.Id,
+            UserId = u.UserId,
+            Forename = u.Forename,
+            Surname = u.Surname,
+            Action = u.Action,
+            DateTime = u.DateTime
+        });
+
         var userId = new UserDetailsViewModel
         {
             Id = user.Id,
@@ -80,7 +99,8 @@ public class UsersController : Controller
             Surname = user.Surname,
             Email = user.Email,
             DateOfBirth = user.DateOfBirth,
-            IsActive = user.IsActive
+            IsActive = user.IsActive,
+            UserLogs = userLogItems.ToList()
         };
         return View(userId);
     }

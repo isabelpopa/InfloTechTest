@@ -1,4 +1,5 @@
 ﻿using System;
+using UserManagement.Web.Models.UserLogs;
 
 namespace UserManagement.Web.Models.Users;
 
@@ -15,4 +16,5 @@ public class UserDetailsViewModel
     public DateOnly DateOfBirth { get; set; }
 
     public bool IsActive { get; set; }
+    public List<UserLogListItemViewModel> UserLogs { get; set; } = new();
 }
