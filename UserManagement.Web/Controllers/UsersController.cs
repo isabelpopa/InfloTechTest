@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using UserManagement.Models;
 using UserManagement.Services.Domain.Interfaces;
 using UserManagement.Web.Models.UserLogs;
@@ -54,7 +55,7 @@ public class UsersController : Controller
     public ViewResult Add() => View();
 
     [HttpPost("add")]
-    public IActionResult Add(CreateUserModel model)
+    public async Task<IActionResult> Add(CreateUserModel model)
     {
         if (!ModelState.IsValid)
             return View(model);
@@ -68,15 +69,15 @@ public class UsersController : Controller
             IsActive = model.IsActive
         };
 
-        _userService.AddUser(user);
+        await _userService.AddUserAsync(user);
 
         return RedirectToAction("List");
     }
 
     [HttpGet("view/{id}")]
-    public IActionResult View(long id)
+    public async Task<IActionResult> View(long id)
     {
-        var user = _userService.GetUserById(id);
+        var user = await _userService.GetUserByIdAsync(id);
         if (user == null)
             return NotFound();
 
@@ -106,9 +107,9 @@ public class UsersController : Controller
     }
 
     [HttpGet("edit/{id}")]
-    public IActionResult Update(long id)
+    public async Task<IActionResult> Update(long id)
     {
-        var user = _userService.GetUserById(id);
+        var user = await _userService.GetUserByIdAsync(id);
         if (user == null)
             return NotFound();
 
@@ -124,10 +125,9 @@ public class UsersController : Controller
         return View("Edit", userEditModel);
     }
 
-    [HttpPost("edit/{id}")]
-    public IActionResult ChangedUser(long id, UpdateUserModel model)
+    [HttpPost("edit")]
+    public async Task<IActionResult> ChangedUser(UpdateUserModel model)
     {
-
         if (!ModelState.IsValid)
             return View("Edit", model);
 
@@ -141,15 +141,15 @@ public class UsersController : Controller
             IsActive = model.IsActive
         };
 
-        _userService.EditUser(updatedUser);
+        await _userService.EditUserAsync(updatedUser);
 
         return RedirectToAction("List");
     }
 
     [HttpGet("delete/{id}")]
-    public IActionResult Delete(long id)
+    public async Task<IActionResult> Delete(long id)
     {
-        var user = _userService.GetUserById(id);
+        var user = await _userService.GetUserByIdAsync(id);
         if (user == null)
             return NotFound();
 
@@ -166,13 +166,13 @@ public class UsersController : Controller
     }
 
     [HttpPost("delete/{id}")]
-    public IActionResult DeleteConfirmed(long id)
+    public async Task<IActionResult> DeleteConfirmed(long id)
     {
-        var user = _userService.GetUserById(id);
+        var user = await _userService.GetUserByIdAsync(id);
         if (user == null)
             return NotFound();
 
-        _userService.DeleteUser(user);
+        await _userService.DeleteUserAsync(user);
 
         return RedirectToAction("List");
     }

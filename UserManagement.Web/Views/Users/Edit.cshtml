@@ -2,7 +2,9 @@
 
 <h2>Edit User</h2>
 
-<form asp-controller="Users" asp-action="ChangedUser" asp-route-id="@Model.Id" method="post">
+<form asp-controller="Users" asp-action="ChangedUser" method="post">
+	<input asp-for="Id" hidden/>
+
 	<div class="mt-4">
 		<label asp-for="Forename"></label>
 		<input asp-for="Forename" />

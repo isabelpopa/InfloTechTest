@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UserManagement.Data;
 using UserManagement.Models;
 using UserManagement.Services.Domain.Interfaces;
@@ -26,9 +27,9 @@ public class UserService : IUserService
     /// <returns></returns>
     public IEnumerable<User> FilterByActive(bool isActive) => _dataAccess.GetAll<User>().Where(u => u.IsActive == isActive);
     public IEnumerable<User> GetAll() => _dataAccess.GetAll<User>();
-    public void AddUser(User user)
+    public async Task AddUserAsync(User user)
     {
-        _dataAccess.Create(user);
+        await _dataAccess.CreateAsync(user);
         var userLog = new UserLog
         {
             UserId = user.Id,
@@ -38,9 +39,9 @@ public class UserService : IUserService
             Action = "Created",
             DateTime = DateTime.Now
         };
-        _userLogService.AddUserLog(userLog);
+        await _userLogService.AddUserLogAsync(userLog);
     }
-    public User? GetUserById(long id)
+    public async Task<User?> GetUserByIdAsync(long id)
     {
         var user = _dataAccess.GetAll<User>().SingleOrDefault(u => u.Id == id);
         if (user == null)
@@ -54,12 +55,12 @@ public class UserService : IUserService
             Action = "Viewed",
             DateTime = DateTime.Now
         };
-        _userLogService.AddUserLog(userLog);
+        await _userLogService.AddUserLogAsync(userLog);
         return user;
     }
-    public void EditUser(User updatedUser)
+    public async Task EditUserAsync(User updatedUser)
     {
-        _dataAccess.Update(updatedUser);
+        await _dataAccess.UpdateAsync(updatedUser);
 
         var userLog = new UserLog
         {
@@ -70,11 +71,11 @@ public class UserService : IUserService
             Action = "Edited",
             DateTime = DateTime.Now
         };
-        _userLogService.AddUserLog(userLog);
+        await _userLogService.AddUserLogAsync(userLog);
     }
-    public void DeleteUser(User user)
+    public async Task DeleteUserAsync(User user)
     {
-        _dataAccess.Delete(user);
+        await _dataAccess.DeleteAsync(user);
 
         var userLog = new UserLog
         {
@@ -85,6 +86,6 @@ public class UserService : IUserService
             Action = "Deleted",
             DateTime = DateTime.Now
         };
-        _userLogService.AddUserLog(userLog);
+        await _userLogService.AddUserLogAsync(userLog);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UserManagement.Models;
 using UserManagement.Services.Domain.Implementations;
 
@@ -23,7 +24,7 @@ public class UserLogServiceTests
     }
 
     [Fact]
-    public void AddUserLog_PassedUserLog_VerifyDataContextCreateCalledOnce()
+    public async Task AddUserLog_PassedUserLog_VerifyDataContextCreateCalledOnce()
     {
         // Arrange: Initializes objects and sets the value of the data that is passed to the method under test.
         var service = CreateService();
@@ -39,10 +40,10 @@ public class UserLogServiceTests
         };
 
         // Act: Invokes the method under test with the arranged parameters.
-        service.AddUserLog(userLog);
+        await service.AddUserLogAsync(userLog);
 
         // Assert: Verifies that the action of the method under test behaves as expected.
-        _dataContext.Verify(u => u.Create(userLog), Times.Once);
+        _dataContext.Verify(u => u.CreateAsync(userLog), Times.Once);
     }
 
     [Fact]

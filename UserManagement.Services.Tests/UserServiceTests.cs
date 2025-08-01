@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UserManagement.Models;
 using UserManagement.Services.Domain.Implementations;
 using UserManagement.Services.Domain.Interfaces;
@@ -50,7 +51,7 @@ public class UserServiceTests
     }
 
     [Fact]
-    public void AddUser_PassedUser_VerifyDataContextCreateCalledOnce()
+    public async Task AddUser_PassedUser_VerifyDataContextCreateCalledOnce()
     {
         // Arrange: Initializes objects and sets the value of the data that is passed to the method under test.
         var service = CreateService();
@@ -64,14 +65,14 @@ public class UserServiceTests
         };
 
         // Act: Invokes the method under test with the arranged parameters.
-        service.AddUser(user);
+        await service.AddUserAsync(user);
 
         // Assert: Verifies that the action of the method under test behaves as expected.
-        _dataContext.Verify(u => u.Create(user), Times.Once);
+        _dataContext.Verify(u => u.CreateAsync(user), Times.Once);
     }
 
     [Fact]
-    public void GetUserById_ValidUserId_ReturnsUser()
+    public async Task GetUserById_ValidUserId_ReturnsUser()
     {
         // Arrange: Initializes objects and sets the value of the data that is passed to the method under test.
         var service = CreateService();
@@ -79,14 +80,14 @@ public class UserServiceTests
         var user = users.First();
 
         // Act: Invokes the method under test with the arranged parameters.
-        var result = service.GetUserById(user.Id);
+        var result = await service.GetUserByIdAsync(user.Id);
 
         // Assert: Verifies that the action of the method under test behaves as expected.
         result.Should().Be(user);
     }
 
     [Fact]
-    public void GetUserById_InvalidUserId_ReturnsNull()
+    public async Task GetUserById_InvalidUserId_ReturnsNull()
     {
         // Arrange: Initializes objects and sets the value of the data that is passed to the method under test.
         var service = CreateService();
@@ -94,14 +95,14 @@ public class UserServiceTests
         var user = users.First();
 
         // Act: Invokes the method under test with the arranged parameters.
-        var result = service.GetUserById(user.Id - 2);
+        var result = await service.GetUserByIdAsync(user.Id - 2);
 
         // Assert: Verifies that the action of the method under test behaves as expected.
         result.Should().Be(null);
     }
 
     [Fact]
-    public void EditUser_PassedUser_VerifyDataContextUpdateCalledOnce()
+    public async Task EditUser_PassedUser_VerifyDataContextUpdateCalledOnce()
     {
         // Arrange: Initializes objects and sets the value of the data that is passed to the method under test.
         var service = CreateService();
@@ -116,14 +117,14 @@ public class UserServiceTests
         };
 
         // Act: Invokes the method under test with the arranged parameters.
-        service.EditUser(user);
+        await service.EditUserAsync(user);
 
         // Assert: Verifies that the action of the method under test behaves as expected.
-        _dataContext.Verify(u => u.Update(user), Times.Once);
+        _dataContext.Verify(u => u.UpdateAsync(user), Times.Once);
     }
 
     [Fact]
-    public void DeleteUser_PassedUser_VerifyDataContextDeleteCalledOnce()
+    public async Task DeleteUser_PassedUser_VerifyDataContextDeleteCalledOnce()
     {
         // Arrange: Initializes objects and sets the value of the data that is passed to the method under test.
         var service = CreateService();
@@ -138,10 +139,10 @@ public class UserServiceTests
         };
 
         // Act: Invokes the method under test with the arranged parameters.
-        service.DeleteUser(user);
+        await service.DeleteUserAsync(user);
 
         // Assert: Verifies that the action of the method under test behaves as expected.
-        _dataContext.Verify(u => u.Delete(user), Times.Once);
+        _dataContext.Verify(u => u.DeleteAsync(user), Times.Once);
     }
 
     private IQueryable<User> SetupUsers()
