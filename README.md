@@ -1,3 +1,10 @@
+## Completed Work 
+
+I have implemented the requirements found in the sections 1 - 4 of this Technical Excercise, and updated the data access layer to support asynchronous operations (Section 5. Extend the Application).
+In addition, I have added some unit testing to make sure my work performs as expected.
+
+There are no additional packages, tools or setup required to run my completed version.
+
 # User Management Technical Exercise
 
 The exercise is an ASP.NET Core web application backed by Entity Framework Core, which faciliates management of some fictional users.
