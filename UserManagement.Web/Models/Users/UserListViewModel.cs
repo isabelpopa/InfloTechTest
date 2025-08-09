@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 namespace UserManagement.Web.Models.Users;
 
 public class UserListViewModel
