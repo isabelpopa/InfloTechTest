@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using UserManagement.Data;
 using UserManagement.Models;
 using UserManagement.Services.Domain.Interfaces;
+using UserManagement.Services.Enums;
 
 namespace UserManagement.Services.Domain.Implementations;
 
@@ -14,19 +16,39 @@ public class UserService : IUserService
 
     private readonly IUserLogService _userLogService;
 
-    public UserService(IDataContext dataAccess, IUserLogService userLogService)
+    private readonly IMemoryCache _cache;
+
+    public UserService(IDataContext dataAccess, IUserLogService userLogService, IMemoryCache cache)
     {
         _dataAccess = dataAccess;
         _userLogService = userLogService;
-    } 
+        _cache = cache;
+    }
 
     /// <summary>
     /// Return users by active state
     /// </summary>
     /// <param name="isActive"></param>
     /// <returns></returns>
-    public IEnumerable<User> FilterByActive(bool isActive) => _dataAccess.GetAll<User>().Where(u => u.IsActive == isActive);
-    public IEnumerable<User> GetAll() => _dataAccess.GetAll<User>();
+    public IEnumerable<User> FilterByActive(bool isActive)
+    {
+        var key = isActive ? UserCacheKey.ActiveUsers : UserCacheKey.InactiveUsers;
+        return _cache.GetOrCreate(key, entry =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
+            return _dataAccess.GetAll<User>()
+                              .Where(u => u.IsActive == isActive)
+                              .OrderBy(u => u.Id)
+                              .ToList();
+        })!;
+    }
+
+    public IEnumerable<User> GetAll() => _cache.GetOrCreate(UserCacheKey.AllUsers, entry =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
+            return _dataAccess.GetAll<User>().OrderBy(u => u.Id).ToList();
+        })!;
+
     public async Task AddUserAsync(User user)
     {
         await _dataAccess.CreateAsync(user);

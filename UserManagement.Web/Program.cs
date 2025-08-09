@@ -13,6 +13,8 @@ builder.Services
     .AddMarkdown()
     .AddControllersWithViews();
 
+builder.Services.AddMemoryCache();
+
 //Change DataContext to standard DataContext for in-memory database
 //Change DataContext to SqlDataContext for SQL database
 builder.Services.AddScoped<IDataContext, DataContext>();
